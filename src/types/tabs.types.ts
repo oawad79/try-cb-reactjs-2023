@@ -1,0 +1,3 @@
+interface ActiveTab {
+    activeTab: string;
+}
