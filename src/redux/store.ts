@@ -5,8 +5,11 @@ import { rootSaga } from "./sagas";
 import hotelsReducer from './slices/hotelsSlice'
 import toastsReducer from './slices/toastsSlice'
 import tabsReducer from './slices/tabsSlice'
+import airportsReducer from "./slices/airportsSlice";
 import { persistReducer, persistStore } from "redux-persist";
 import storage from "redux-persist/es/storage";
+import flightsApi from "../services/FlightsService";
+import airportsApi from "../services/AirportService"
 
 //using redux-persist to store the redux state to 
 //keep the store state when browser refreshed 
@@ -29,7 +32,12 @@ const sagaMiddleware = createSagaMiddleware({
 const rootReducer = combineReducers({ 
   hotels: hotelsReducer,
   toasts: toastsReducer,
-  tabs: tabsReducer
+  tabs: tabsReducer,
+  airports: airportsReducer,
+
+  //RTK Query APIs
+  [flightsApi.reducerPath] : flightsApi.reducer,
+  [airportsApi.reducerPath] : airportsApi.reducer
 })
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
@@ -37,14 +45,16 @@ const persistedReducer = persistReducer(persistConfig, rootReducer)
 export const store = configureStore({
     reducer: persistedReducer,
     middleware: getDefaultMiddleware =>
-        getDefaultMiddleware({ thunk: false, serializableCheck: false })
+        getDefaultMiddleware({serializableCheck: false})
         .concat(sagaMiddleware)
+        .concat(flightsApi.middleware)
+        .concat(airportsApi.middleware)
         .concat(logger),
     devTools: {
       trace: true
     }
 });
-
+//{ thunk: false, serializableCheck: false }
 sagaMiddleware.run(rootSaga);
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
@@ -53,5 +63,6 @@ export type RootState = ReturnType<typeof store.getState>
 export type AppDispatch = typeof store.dispatch
 
 export const persistor = persistStore(store)
+//persistor.purge()
 
 

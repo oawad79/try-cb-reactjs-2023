@@ -1,7 +1,36 @@
-import { Button, Col, DatePicker, Form, Input, Row, Table } from "antd";
+import {
+  AutoComplete,
+  Button,
+  Col,
+  DatePicker,
+  Form,
+  Input,
+  Row,
+  Table,
+} from "antd";
 import { ColumnsType } from "antd/es/table";
+import dayjs from "dayjs";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import {
+  autoSuggestValues,
+  getAirportSuggestByCode,
+} from "../../redux/slices/airportsSlice";
+import { BaseSyntheticEvent } from "react";
+
+type FormTypes = {
+  from: string;
+  to: string;
+  leave: string;
+  return: string;
+};
 
 const FlightSearch = () => {
+  //const { useLazyFlightsListQuery } = flightsApi;
+
+  //const [trigger, result] = useLazyFlightsListQuery();
+  const airports = useAppSelector(autoSuggestValues);
+  const dispatch = useAppDispatch();
+
   const columns: ColumnsType<Flight> = [
     {
       title: "Name",
@@ -47,46 +76,91 @@ const FlightSearch = () => {
     },
   ];
 
+  const handleOnFinish = (data: FormTypes) => {
+    console.log("Osama = ", data);
+
+    //console.log(data.from, data.to, data.leave.$y, data.return.$y);
+    // trigger({
+    //   from: data.from,
+    //   to: data.to,
+    //   leave: data.leave,
+    // });
+  };
+
+  const handleFromAirportOnChange = (e: BaseSyntheticEvent) => {
+    dispatch(getAirportSuggestByCode({ airportCode: e.currentTarget.value }));
+  };
+
   return (
-    <Form>
+    <Form onFinish={handleOnFinish}>
       <Row justify={"center"} align={"middle"}>
         <Col className="mx-11">
-          <Form.Item>
-            <Input
-              addonBefore="From"
-              placeholder="E.g. San Francisco Intl, SFO"
-              size="large"
-              className="w-[150px] md:w-[300px] lg:w-[632px]"
-            />
+          <Form.Item<FormTypes>
+            name="from"
+            rules={[{ required: true, message: "Please input from airport!" }]}
+          >
+            <AutoComplete options={airports}>
+              <Input
+                addonBefore="From"
+                placeholder="E.g. San Francisco Intl, SFO"
+                size="large"
+                className="w-[150px] md:w-[300px] lg:w-[632px]"
+                onChange={handleFromAirportOnChange}
+              />
+            </AutoComplete>
           </Form.Item>
         </Col>
         <Col>
-          <Form.Item>
-            <Input
-              addonBefore="To"
-              placeholder="E.g. Los Angeles Intl, LAX"
-              size="large"
-              className="w-[150px] md:w-[300px] lg:w-[632px]"
-            />
+          <Form.Item<FormTypes>
+            name="to"
+            rules={[{ required: true, message: "Please input to airport!" }]}
+          >
+            <AutoComplete options={airports}>
+              <Input
+                addonBefore="To"
+                placeholder="E.g. Los Angeles Intl, LAX"
+                size="large"
+                className="w-[150px] md:w-[300px] lg:w-[632px]"
+                onChange={handleFromAirportOnChange}
+              />
+            </AutoComplete>
           </Form.Item>
         </Col>
       </Row>
       <Row>
         <Col className="mx-11">
-          <Form.Item>
+          <Form.Item<FormTypes>
+            name="leave"
+            rules={[
+              {
+                required: true,
+                type: "object",
+                message: "Please input leave date!",
+              },
+            ]}
+            initialValue={dayjs()}
+          >
             <DatePicker
               format="MM/DD/YYYY"
-              placeholder="mm/dd/yyyy"
               size="large"
               className="w-[150px] md:w-[300px] lg:w-[632px]"
             />
           </Form.Item>
         </Col>
         <Col>
-          <Form.Item>
+          <Form.Item<FormTypes>
+            name="return"
+            rules={[
+              {
+                required: true,
+                type: "object",
+                message: "Please input return date!",
+              },
+            ]}
+            initialValue={dayjs().add(30, "days")}
+          >
             <DatePicker
               format="MM/DD/YYYY"
-              placeholder="mm/dd/yyyy"
               size="large"
               className="w-[150px] md:w-[300px] lg:w-[632px]"
             />

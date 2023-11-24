@@ -9,7 +9,6 @@ function* getHotels({location, optional} : {
 })  {
   try {
       const response : AxiosResponse<{data: Hotel[]}> = yield axios.get(`http://localhost:8080/api/hotels/${optional? optional : '*'}/${location}/`);
-      console.log("response = ", response)
       yield put(getHotelsRequestSuccess(response.data.data))
   } catch (error) {
       //emit a signal to the store, if Saga errors are not handled
@@ -22,6 +21,7 @@ export function* loadHotelsSaga() {
   const hotelsChannel : ActionPattern = yield actionChannel(getHotelsRequest);
   while (true) {
     const { payload } = yield take(hotelsChannel)
+    //call the getHotels method and pass payload as an argument
     yield call(getHotels, payload)
   }
 }
