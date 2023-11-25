@@ -7,8 +7,7 @@ function* handleGetAirportSuggestByCode(action: { type: string, payload: { airpo
     //@ts-expect-error
     const airportsByCodePromise = yield put(api.endpoints.airportNamesByCode.initiate({airportCode: action.payload.airportCode}))
     const { data } = yield airportsByCodePromise
-    console.log(data.data)
-    yield put(setAirportNames(data.data))
+    yield put(setAirportNames(data))
     
 }
 

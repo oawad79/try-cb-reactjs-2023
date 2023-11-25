@@ -21,11 +21,11 @@ const airportsSlice = createSlice({
     name: 'airports',
     initialState: initialState,
     reducers: {
-        setAirportNames: (state, action) => {
-            console.log("state = ", action)
+        setAirportNames: (_, action) => {
             return action.payload
         }
-    }
+    },
+    extraReducers: () => {}
 });
 
 

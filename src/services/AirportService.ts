@@ -17,7 +17,23 @@ const airportsApi = createApi({
                     params: { search: airportCode},
                     method: "GET"
                 };
-            }
+            },
+            transformResponse: (response, meta, arg) => {
+                let transformedAirports = [];
+                console.log("********")
+                if (meta?.response?.status == 200) {
+                    //const data = response.data.data
+                    console.log("response = ", response.data)
+                    transformedAirports = response.data.reduce((res : {value: string}[], item) => {
+                        res.push({ value: item.airportname });
+                        return res;
+                    }, []);
+                }
+                console.log("transformedAirports = ", transformedAirports);
+                return transformedAirports;
+
+                //return response;
+            } 
         })
     })
 

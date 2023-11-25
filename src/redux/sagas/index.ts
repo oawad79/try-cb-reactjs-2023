@@ -1,4 +1,5 @@
 import { airportAutosuggestSaga } from './airportAutosuggestSaga';
+import { loadFlightsSaga } from './loadFlightsSaga';
 import {loadHotelsSaga} from './loadHotelsSaga'
 import { all, fork } from 'redux-saga/effects';
 

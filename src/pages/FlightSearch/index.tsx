@@ -15,7 +15,7 @@ import {
   autoSuggestValues,
   getAirportSuggestByCode,
 } from "../../redux/slices/airportsSlice";
-import { BaseSyntheticEvent } from "react";
+import { BaseSyntheticEvent, useEffect } from "react";
 
 type FormTypes = {
   from: string;
@@ -25,10 +25,11 @@ type FormTypes = {
 };
 
 const FlightSearch = () => {
-  //const { useLazyFlightsListQuery } = flightsApi;
+  //I can use a custom selector to transform the state
+  //however, I used the RTK Query transform response instead
+  //const airports = useAppSelector(autoSuggestValues);
 
-  //const [trigger, result] = useLazyFlightsListQuery();
-  const airports = useAppSelector(autoSuggestValues);
+  const airports = useAppSelector((state) => state.airports);
   const dispatch = useAppDispatch();
 
   const columns: ColumnsType<Flight> = [
@@ -77,14 +78,7 @@ const FlightSearch = () => {
   ];
 
   const handleOnFinish = (data: FormTypes) => {
-    console.log("Osama = ", data);
-
-    //console.log(data.from, data.to, data.leave.$y, data.return.$y);
-    // trigger({
-    //   from: data.from,
-    //   to: data.to,
-    //   leave: data.leave,
-    // });
+    console.log("Osama = ", data.leave.month());
   };
 
   const handleFromAirportOnChange = (e: BaseSyntheticEvent) => {
@@ -99,12 +93,12 @@ const FlightSearch = () => {
             name="from"
             rules={[{ required: true, message: "Please input from airport!" }]}
           >
-            <AutoComplete options={airports}>
+            <AutoComplete options={airports} style={{ width: 632 }}>
               <Input
                 addonBefore="From"
                 placeholder="E.g. San Francisco Intl, SFO"
                 size="large"
-                className="w-[150px] md:w-[300px] lg:w-[632px]"
+                className="w-[150px] md:w-[300px] lg:w-fit"
                 onChange={handleFromAirportOnChange}
               />
             </AutoComplete>
@@ -115,7 +109,7 @@ const FlightSearch = () => {
             name="to"
             rules={[{ required: true, message: "Please input to airport!" }]}
           >
-            <AutoComplete options={airports}>
+            <AutoComplete options={airports} style={{ width: 632 }}>
               <Input
                 addonBefore="To"
                 placeholder="E.g. Los Angeles Intl, LAX"

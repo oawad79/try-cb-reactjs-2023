@@ -40,7 +40,15 @@ const rootReducer = combineReducers({
   [airportsApi.reducerPath] : airportsApi.reducer
 })
 
-const persistedReducer = persistReducer(persistConfig, rootReducer)
+const appReducer = (state, action: {type: string}) => {
+  if (action.type === 'RESET') {
+    return rootReducer(undefined, action)
+  }
+
+  return rootReducer(state, action)
+}
+
+const persistedReducer = persistReducer(persistConfig, appReducer)
 
 export const store = configureStore({
     reducer: persistedReducer,

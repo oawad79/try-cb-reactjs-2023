@@ -1,14 +1,15 @@
 import { Tabs } from "antd";
-import { ReactNode, useEffect } from "react";
+import { ReactElement, ReactNode, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { activeTab } from "../redux/slices/tabsSlice";
 
 type RoutedTabsType = {
   tabs: { label: string; component: ReactNode; url: string }[];
+  extra?: ReactElement;
 };
 
-const RoutedTabs = ({ tabs }: RoutedTabsType) => {
+const RoutedTabs = ({ tabs, extra }: RoutedTabsType) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const state = useAppSelector((state) => state.tabs);
@@ -37,6 +38,7 @@ const RoutedTabs = ({ tabs }: RoutedTabsType) => {
 
   return (
     <Tabs
+      tabBarExtraContent={extra}
       activeKey={state.activeTab}
       type="card"
       size="large"
