@@ -1,9 +1,5 @@
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react'
 
-// type FlightListing = {
-//     name: string
-// }
-
 const airportsApi = createApi({
     reducerPath: "airportsApi",
     baseQuery: fetchBaseQuery({
@@ -18,21 +14,17 @@ const airportsApi = createApi({
                     method: "GET"
                 };
             },
-            transformResponse: (response, meta, arg) => {
-                let transformedAirports = [];
-                console.log("********")
+            transformResponse: (response : {data: {airportname: string}[]}, meta) => {
+                let transformedAirports = [{
+                    value: ""
+                }];
                 if (meta?.response?.status == 200) {
-                    //const data = response.data.data
-                    console.log("response = ", response.data)
                     transformedAirports = response.data.reduce((res : {value: string}[], item) => {
                         res.push({ value: item.airportname });
                         return res;
                     }, []);
                 }
-                console.log("transformedAirports = ", transformedAirports);
                 return transformedAirports;
-
-                //return response;
             } 
         })
     })

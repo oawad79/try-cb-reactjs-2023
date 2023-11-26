@@ -11,11 +11,10 @@ import {
 import { ColumnsType } from "antd/es/table";
 import dayjs from "dayjs";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
-import {
-  autoSuggestValues,
-  getAirportSuggestByCode,
-} from "../../redux/slices/airportsSlice";
-import { BaseSyntheticEvent, useEffect } from "react";
+import { getAirportSuggestByCode } from "../../redux/slices/airportsSlice";
+import { BaseSyntheticEvent } from "react";
+import { getFlightsByFromByToByTime } from "../../redux/slices/flightsSlice";
+import uniqid from "uniqid";
 
 type FormTypes = {
   from: string;
@@ -30,6 +29,8 @@ const FlightSearch = () => {
   //const airports = useAppSelector(autoSuggestValues);
 
   const airports = useAppSelector((state) => state.airports);
+  const outFlights = useAppSelector((state) => state.outFlights);
+  const returnFlights = useAppSelector((state) => state.returnFlights);
   const dispatch = useAppDispatch();
 
   const columns: ColumnsType<Flight> = [
@@ -77,8 +78,15 @@ const FlightSearch = () => {
     },
   ];
 
-  const handleOnFinish = (data: FormTypes) => {
-    console.log("Osama = ", data.leave.month());
+  const handleOnFinish = async (params: FormTypes) => {
+    dispatch(
+      getFlightsByFromByToByTime({
+        from: params.from,
+        to: params.to,
+        leave: dayjs(params.leave).format("MM/DD/YYYY"),
+        return: dayjs(params.return).format("MM/DD/YYYY"),
+      })
+    );
   };
 
   const handleFromAirportOnChange = (e: BaseSyntheticEvent) => {
@@ -179,7 +187,8 @@ const FlightSearch = () => {
           <Table
             title={() => <div className="text-xl">Outbound Flights</div>}
             columns={columns}
-            rowKey={(record) => record.name}
+            key={uniqid()}
+            dataSource={outFlights}
           />
         </Col>
       </Row>
@@ -188,7 +197,8 @@ const FlightSearch = () => {
           <Table
             title={() => <div className="text-xl">Returning Flights</div>}
             columns={columns}
-            rowKey={(record) => record.name}
+            key={uniqid()}
+            dataSource={returnFlights}
           />
         </Col>
       </Row>

@@ -3,6 +3,7 @@ import { ReactElement, ReactNode, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { activeTab } from "../redux/slices/tabsSlice";
+import _ from "lodash";
 
 type RoutedTabsType = {
   tabs: { label: string; component: ReactNode; url: string }[];

@@ -2,6 +2,7 @@ import { Row, Col, Input, Button, Table, Divider, Form } from "antd";
 import { ColumnsType } from "antd/es/table";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { getHotelsRequest } from "../../redux/slices/hotelsSlice";
+import uniqid from "uniqid";
 
 type FormTypes = {
   search: string;
@@ -88,11 +89,7 @@ const HotelSearch = () => {
       <Divider className="mx-11" />
       <Row justify={"center"} align={"middle"}>
         <Col className="w-full">
-          <Table
-            columns={columns}
-            dataSource={hotels}
-            rowKey={(record) => record.name}
-          />
+          <Table columns={columns} dataSource={hotels} rowKey={uniqid()} />
         </Col>
       </Row>
     </Form>

@@ -6,6 +6,7 @@ import hotelsReducer from './slices/hotelsSlice'
 import toastsReducer from './slices/toastsSlice'
 import tabsReducer from './slices/tabsSlice'
 import airportsReducer from "./slices/airportsSlice";
+import { outReducer, returnReducer} from "./slices/flightsSlice";
 import { persistReducer, persistStore } from "redux-persist";
 import storage from "redux-persist/es/storage";
 import flightsApi from "../services/FlightsService";
@@ -34,7 +35,9 @@ const rootReducer = combineReducers({
   toasts: toastsReducer,
   tabs: tabsReducer,
   airports: airportsReducer,
-
+  outFlights: outReducer,
+  returnFlights: returnReducer,
+  
   //RTK Query APIs
   [flightsApi.reducerPath] : flightsApi.reducer,
   [airportsApi.reducerPath] : airportsApi.reducer

@@ -5,5 +5,5 @@ import { all, fork } from 'redux-saga/effects';
 
 
 export function* rootSaga() {
-    yield all([fork(loadHotelsSaga), fork(airportAutosuggestSaga)]);
+    yield all([fork(loadHotelsSaga), fork(airportAutosuggestSaga), fork(loadFlightsSaga)]);
 }
