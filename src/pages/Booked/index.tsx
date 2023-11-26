@@ -1,5 +1,6 @@
 import { Col, Form, Row, Table } from "antd";
 import { ColumnsType } from "antd/es/table";
+import uniqid from "uniqid";
 
 interface Booked {
   name: string;
@@ -47,7 +48,7 @@ const Booked = () => {
         <Col className="w-full">
           <Table
             columns={columns}
-            rowKey={(record) => record.name}
+            rowKey={uniqid()}
             className="w-[150px] md:w-[300px] lg:w-[1352px]"
           />
         </Col>

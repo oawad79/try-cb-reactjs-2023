@@ -15,13 +15,15 @@ const flightsApi = createApi({
                 };
             },
             transformResponse(baseQueryReturnValue: {data: Flight[]}) {
-                console.log("logging = ",baseQueryReturnValue)
                 const transformedFlights = baseQueryReturnValue.data.reduce((res: Flight[], flight) => {
                     res.push({...flight, key: uniqid(), flightPath: `${flight.sourceairport} -> ${flight.destinationairport}` });
                     return res;        
                 }, []);
 
                 return transformedFlights;
+            },
+            transformErrorResponse(baseQueryReturnValue, meta, arg) {
+                return []
             },
 
         })
