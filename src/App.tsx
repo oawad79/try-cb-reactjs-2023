@@ -3,8 +3,9 @@ import { Col, Layout, Row } from "antd";
 import { Content, Header } from "antd/es/layout/layout";
 import { lazy } from "react";
 import RoutedTabs from "./components/RoutedTabs";
-import { Link } from "react-router-dom";
+import { Link, Route, Routes } from "react-router-dom";
 import { useAppDispatch } from "./redux/hooks";
+import Login from "./pages/Login";
 
 //const NotFound = lazy(() => import("../components/NotFound/index"));
 const HotelSearch = lazy(() => import("./pages/HotelSearch"));
@@ -22,14 +23,17 @@ function App() {
           <Header className="bg-white">
             <RoutedTabs
               extra={
-                <Link
-                  to="/"
-                  onClick={() => {
-                    dispatch({ type: "RESET" });
-                  }}
-                >
-                  Logout
-                </Link>
+                <div>
+                  <Link to="/">Login</Link>
+                  <Link
+                    to="/"
+                    onClick={() => {
+                      dispatch({ type: "RESET" });
+                    }}
+                  >
+                    Logout
+                  </Link>
+                </div>
               }
               tabs={[
                 {
@@ -55,7 +59,11 @@ function App() {
               ]}
             />
           </Header>
-          <Content></Content>
+          <Content>
+            <Routes>
+              <Route path="/" element={<Login />} />
+            </Routes>
+          </Content>
         </Layout>
       </Col>
     </Row>
