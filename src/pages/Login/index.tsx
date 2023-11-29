@@ -30,19 +30,24 @@ const Login = () => {
   const [form] = useForm();
 
   const handleRegister = () => {
-    signup({
-      username: form.getFieldValue("username"),
-      password: form.getFieldValue("password"),
-      tenant: "tenant_agent_00",
-    })
-      .unwrap()
-      .then(() => {
-        setError(null);
-        navigate("/flights");
+    form.validateFields().then(() => {
+      signup({
+        username: form.getFieldValue("username"),
+        password: form.getFieldValue("password"),
+        tenant: "tenant_agent_00",
       })
-      .catch((error) => {
-        setError(error);
-      });
+        .unwrap()
+        .then(() => {
+          setError(null);
+          navigate("/flights");
+        })
+        .catch((error) => {
+          setError(error);
+        });
+    });
+    // .catch((error) => {
+    //   console.log("e = ", error.errorFields);
+    // });
   };
 
   const handleLogin = (data: LoginType) => {
