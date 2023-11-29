@@ -4,7 +4,7 @@ import { Content, Header } from "antd/es/layout/layout";
 import { lazy } from "react";
 import RoutedTabs from "./components/RoutedTabs";
 import { Link, Route, Routes } from "react-router-dom";
-import { useAppDispatch } from "./redux/hooks";
+import { useAppDispatch, useAppSelector } from "./redux/hooks";
 import Login from "./pages/Login";
 
 //const NotFound = lazy(() => import("../components/NotFound/index"));
@@ -15,6 +15,11 @@ const FlightSearch = lazy(() => import("./pages/FlightSearch"));
 
 function App() {
   const dispatch = useAppDispatch();
+  const state = useAppSelector((state) => state.auth);
+
+  const isLogginIn = () => {
+    return state && "token" in state && state.token!.length > 0;
+  };
 
   return (
     <Row justify={"center"} align={"middle"}>
@@ -24,15 +29,17 @@ function App() {
             <RoutedTabs
               extra={
                 <div>
-                  <Link to="/">Login</Link>
-                  <Link
-                    to="/"
-                    onClick={() => {
-                      dispatch({ type: "RESET" });
-                    }}
-                  >
-                    Logout
-                  </Link>
+                  {!isLogginIn() && <Link to="/">Login</Link>}
+                  {isLogginIn() && (
+                    <Link
+                      to="/"
+                      onClick={() => {
+                        dispatch({ type: "RESET" });
+                      }}
+                    >
+                      Logout
+                    </Link>
+                  )}
                 </div>
               }
               tabs={[

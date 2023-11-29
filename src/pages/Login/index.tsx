@@ -1,4 +1,5 @@
 import {
+  Alert,
   Button,
   Col,
   Flex,
@@ -10,24 +11,86 @@ import {
   Typography,
 } from "antd";
 import Password from "antd/es/input/Password";
+import loginApi from "../../services/LoginService";
+import { useNavigate } from "react-router-dom";
+
+import { useState } from "react";
+import { useForm } from "antd/es/form/Form";
 
 const Login = () => {
-  const handleLogin = () => {};
+  const [signup] = loginApi.useSignupMutation();
+  const [login] = loginApi.useLazyLoginQuery();
+  const navigate = useNavigate();
+  const [error, setError] = useState<{
+    data: {
+      error: string;
+    };
+  } | null>();
+  const [form] = useForm();
+
+  const handleRegister = () => {
+    signup({
+      username: form.getFieldValue("username"),
+      password: form.getFieldValue("password"),
+      tenant: "tenant_agent_00",
+    })
+      .unwrap()
+      .then(() => {
+        setError(null);
+        navigate("/flights");
+      })
+      .catch((error) => {
+        setError(error);
+      });
+  };
+
+  const handleLogin = (data: LoginType) => {
+    login({
+      username: data.username,
+      password: data.password,
+      tenant: "tenant_agent_00",
+    })
+      .unwrap()
+      .then(() => {
+        setError(null);
+        navigate("/flights");
+      })
+      .catch(
+        (error: {
+          data: {
+            error: string;
+          };
+        }) => {
+          setError(error);
+        }
+      );
+  };
+
   const { Title, Paragraph } = Typography;
 
   return (
     <Row className="w-[150px] md:w-[300px] lg:w-[1452px] bg-white align-middle justify-center py-7">
       <Col>
-        <Form onFinish={handleLogin}>
+        <Form onFinish={handleLogin} form={form}>
           <Space direction="vertical">
-            <Form.Item>
+            <Form.Item<LoginType>
+              name="username"
+              rules={[
+                { required: true, message: "Please input your username!" },
+              ]}
+            >
               <Input
                 addonBefore="Username"
                 size="large"
                 className="w-[150px] md:w-[300px] lg:w-[500px]"
               />
             </Form.Item>
-            <Form.Item>
+            <Form.Item<LoginType>
+              name="password"
+              rules={[
+                { required: true, message: "Please input your password!" },
+              ]}
+            >
               <Password
                 addonBefore="Password"
                 size="large"
@@ -50,12 +113,20 @@ const Login = () => {
                   type="default"
                   size="large"
                   className="w-60"
-                  htmlType="submit"
+                  onClick={handleRegister}
                 >
                   Register
                 </Button>
               </Form.Item>
             </Flex>
+            {error && (
+              <Alert
+                showIcon={true}
+                description={error.data.error}
+                type="error"
+                closable
+              />
+            )}
           </Space>
         </Form>
       </Col>

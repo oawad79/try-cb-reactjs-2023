@@ -11,6 +11,8 @@ import { persistReducer, persistStore } from "redux-persist";
 import storage from "redux-persist/es/storage";
 import flightsApi from "../services/FlightsService";
 import airportsApi from "../services/AirportService"
+import loginApi from "../services/LoginService";
+import authReducer from './slices/authSlice'
 
 //using redux-persist to store the redux state to 
 //keep the store state when browser refreshed 
@@ -37,10 +39,12 @@ const rootReducer = combineReducers({
   airports: airportsReducer,
   outFlights: outReducer,
   returnFlights: returnReducer,
+  auth: authReducer,
   
   //RTK Query APIs
   [flightsApi.reducerPath] : flightsApi.reducer,
-  [airportsApi.reducerPath] : airportsApi.reducer
+  [airportsApi.reducerPath] : airportsApi.reducer,
+  [loginApi.reducerPath] : loginApi.reducer,
 })
 
 const appReducer = (state, action: {type: string}) => {
@@ -60,6 +64,7 @@ export const store = configureStore({
         .concat(sagaMiddleware)
         .concat(flightsApi.middleware)
         .concat(airportsApi.middleware)
+        .concat(loginApi.middleware)
         .concat(logger),
     devTools: {
       trace: true
