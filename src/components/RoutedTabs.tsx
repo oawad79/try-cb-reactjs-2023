@@ -5,7 +5,12 @@ import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { activeTab } from "../redux/slices/tabsSlice";
 
 type RoutedTabsType = {
-  tabs: { label: string; component: ReactNode; url: string }[];
+  tabs: {
+    label: string;
+    component: ReactNode;
+    url: string;
+    disabled: boolean;
+  }[];
   extra?: ReactElement;
 };
 
@@ -33,6 +38,7 @@ const RoutedTabs = ({ tabs, extra }: RoutedTabsType) => {
       label: entry.label,
       key: id,
       children: entry.component,
+      disabled: entry.disabled,
     };
   });
 

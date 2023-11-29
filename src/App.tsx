@@ -15,10 +15,10 @@ const FlightSearch = lazy(() => import("./pages/FlightSearch"));
 
 function App() {
   const dispatch = useAppDispatch();
-  const state = useAppSelector((state) => state.auth);
+  const auth = useAppSelector((state) => state.auth);
 
-  const isLogginIn = () => {
-    return state && "token" in state && state.token!.length > 0;
+  const isLoggedIn = () => {
+    return auth.token && auth.token.length > 0;
   };
 
   return (
@@ -29,15 +29,15 @@ function App() {
             <RoutedTabs
               extra={
                 <div>
-                  {!isLogginIn() && <Link to="/">Login</Link>}
-                  {isLogginIn() && (
+                  {!isLoggedIn() && <Link to="/">Login</Link>}
+                  {isLoggedIn() && (
                     <Link
                       to="/"
                       onClick={() => {
                         dispatch({ type: "RESET" });
                       }}
                     >
-                      Logout
+                      Logout ({auth.username})
                     </Link>
                   )}
                 </div>
@@ -47,21 +47,25 @@ function App() {
                   label: "Flights",
                   component: <FlightSearch />,
                   url: "/flights",
+                  disabled: false,
                 },
                 {
                   label: "Cart",
                   component: <Cart />,
                   url: "/cart",
+                  disabled: !isLoggedIn(),
                 },
                 {
                   label: "Booked",
                   component: <Booked />,
                   url: "/booked",
+                  disabled: !isLoggedIn(),
                 },
                 {
                   label: "Hotels",
                   component: <HotelSearch />,
                   url: "/hotels",
+                  disabled: false,
                 },
               ]}
             />
