@@ -14,7 +14,10 @@ const authSlice = createSlice({
     reducers: {},
     extraReducers(builder) {
         builder.addMatcher(loginApi.endpoints.signup.matchFulfilled, (state, action) => {
-            return action.payload.data
+            return {
+                "token": action.payload.data.token, 
+                "username" : action.meta.arg.originalArgs.username
+            }
         }).addMatcher(loginApi.endpoints.login.matchFulfilled, (state, action) => {
             return {
                 "token": action.payload.data.token, 
