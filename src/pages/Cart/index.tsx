@@ -1,15 +1,11 @@
-import { Col, Form, Row, Table } from "antd";
+import { Button, Col, Form, Row, Table } from "antd";
 import { ColumnsType } from "antd/es/table";
-
-interface Cart {
-  name: string;
-  flight: string;
-  date: string;
-  flightPath: string;
-  actions: string;
-}
+import uniqid from "uniqid";
+import { useAppSelector } from "../../redux/hooks";
 
 const Cart = () => {
+  const cart = useAppSelector<Cart[]>((state) => state.cart);
+
   const columns: ColumnsType<Cart> = [
     {
       title: "Name",
@@ -45,6 +41,16 @@ const Cart = () => {
       key: "actions",
       fixed: "left",
       width: 100,
+      render: () => {
+        return (
+          <>
+            <Button type="primary" className="mx-5">
+              Buy
+            </Button>
+            <a>Delete</a>
+          </>
+        );
+      },
     },
   ];
 
@@ -54,8 +60,10 @@ const Cart = () => {
         <Col className="w-full">
           <Table
             columns={columns}
-            rowKey={(record) => record.name}
+            rowKey={uniqid()}
+            key={uniqid()}
             className="w-[150px] md:w-[300px] lg:w-[1352px]"
+            dataSource={cart}
           />
         </Col>
       </Row>

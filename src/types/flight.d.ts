@@ -1,3 +1,5 @@
+import { ReactElement } from "react";
+
 interface Flight {
   key: string;
   name: string;
@@ -5,9 +7,10 @@ interface Flight {
   utc: string;
   flightPath: string;
   price: string;
-  actions: string;
+  actions: ReactElement;
   sourceairport?: string;
   destinationairport?:string;
+  added?: boolean;
 }
 
 type GetFlightsType = {

@@ -1,4 +1,4 @@
-import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import { combineReducers, configureStore} from "@reduxjs/toolkit";
 import createSagaMiddleware from "redux-saga"
 import logger from 'redux-logger'
 import { rootSaga } from "./sagas";
@@ -13,6 +13,7 @@ import flightsApi from "../services/FlightsService";
 import airportsApi from "../services/AirportService"
 import loginApi from "../services/LoginService";
 import authReducer from './slices/authSlice'
+import cartReducer from './slices/cartSlice'
 
 //using redux-persist to store the redux state to 
 //keep the store state when browser refreshed 
@@ -40,6 +41,7 @@ const rootReducer = combineReducers({
   outFlights: outReducer,
   returnFlights: returnReducer,
   auth: authReducer,
+  cart: cartReducer,
   
   //RTK Query APIs
   [flightsApi.reducerPath] : flightsApi.reducer,

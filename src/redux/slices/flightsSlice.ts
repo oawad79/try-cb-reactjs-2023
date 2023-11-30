@@ -1,4 +1,6 @@
-import { createAction, createSlice } from "@reduxjs/toolkit";
+import { createAction, createSelector, createSlice } from "@reduxjs/toolkit";
+import { Flight, GetFlightsType } from "../../types/flight";
+import { RootState } from "../store";
 
 const initialState: Flight[] = []
 
@@ -43,3 +45,32 @@ export { outReducer, returnReducer};
 
 export const { setOutgoingFlights } = outgoingFlightsSlice.actions
 export const { setReturningFlights } = returningFlightsSlice.actions
+
+export const outFlightsForUI = createSelector(
+    (state: RootState) => state.outFlights,
+    (state: RootState) => state.cart,
+    (flights, cart) => {
+        const mappedFlights = flights.map(flight => {
+            return {
+                ...flight, added: cart.find(cartEntry => cartEntry.flight === flight.flight)
+            }
+        });
+
+        return mappedFlights;
+    }
+);
+
+export const returnFlightsForUI = createSelector(
+    (state: RootState) => state.returnFlights,
+    (state: RootState) => state.cart,
+    (flights, cart) => {
+        const mappedFlights = flights.map(flight => {
+            return {
+                ...flight, added: cart.find(cartEntry => cartEntry.flight === flight.flight)
+            }
+        });
+
+        return mappedFlights;
+    }
+);
+

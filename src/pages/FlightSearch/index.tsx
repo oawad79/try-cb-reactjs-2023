@@ -13,8 +13,14 @@ import dayjs from "dayjs";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { getAirportSuggestByCode } from "../../redux/slices/airportsSlice";
 import { BaseSyntheticEvent } from "react";
-import { getFlightsByFromByToByTime } from "../../redux/slices/flightsSlice";
+import {
+  getFlightsByFromByToByTime,
+  outFlightsForUI,
+  returnFlightsForUI,
+} from "../../redux/slices/flightsSlice";
 import uniqid from "uniqid";
+import { Flight } from "../../types/flight";
+import { addToCart } from "../../redux/slices/cartSlice";
 
 type FormTypes = {
   from: string;
@@ -29,9 +35,20 @@ const FlightSearch = () => {
   //const airports = useAppSelector(autoSuggestValues);
 
   const airports = useAppSelector((state) => state.airports);
-  const outFlights = useAppSelector((state) => state.outFlights);
-  const returnFlights = useAppSelector((state) => state.returnFlights);
+  //const outFlights = useAppSelector((state) => state.outFlights);
+  const outFlights = useAppSelector(outFlightsForUI);
+  const returnFlights = useAppSelector(returnFlightsForUI);
+  const auth = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
+
+  const handleOnAddToCart = (record: Flight): void => {
+    console.log("selected row = ", record);
+    dispatch(addToCart(record));
+  };
+
+  const isLoggedIn = () => {
+    return auth.token && auth.token.length > 0;
+  };
 
   const columns: ColumnsType<Flight> = [
     {
@@ -75,6 +92,15 @@ const FlightSearch = () => {
       key: "actions",
       fixed: "left",
       width: 100,
+      render: (text, record) => (
+        <Button
+          type="primary"
+          onClick={() => handleOnAddToCart(record)}
+          disabled={!isLoggedIn() || record.added}
+        >
+          Add to Cart
+        </Button>
+      ),
     },
   ];
 
