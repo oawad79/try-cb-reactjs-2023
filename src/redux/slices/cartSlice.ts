@@ -20,6 +20,10 @@ const cartSlice = createSlice({
     reducers: {
         addToCart: (state, action) => {
             return [...state, mapFlightToCart(action.payload)]    
+        },
+        removeFromCart: (state, action) => {
+            console.log("delete action = ", action)
+            return state.filter(entry => entry.flight !== action.payload.flight )
         }
     }, 
     extraReducers: () => {
@@ -28,6 +32,6 @@ const cartSlice = createSlice({
 });
 
 export default cartSlice.reducer
-export const { addToCart } = cartSlice.actions
+export const { addToCart, removeFromCart } = cartSlice.actions
 
 

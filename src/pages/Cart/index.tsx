@@ -1,10 +1,34 @@
 import { Button, Col, Form, Row, Table } from "antd";
 import { ColumnsType } from "antd/es/table";
 import uniqid from "uniqid";
-import { useAppSelector } from "../../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { removeFromCart } from "../../redux/slices/cartSlice";
+import { bookFlightAction } from "../../redux/slices/bookedSlice";
 
 const Cart = () => {
   const cart = useAppSelector<Cart[]>((state) => state.cart);
+  const dispatch = useAppDispatch();
+  const auth = useAppSelector((state) => state.auth);
+
+  const handleDelete = (record: Cart) => {
+    dispatch(removeFromCart(record));
+  };
+
+  const handleBuy = (record: Cart) => {
+    // Promise.resolve(dispatch(addToBooked(record))).then(() =>
+    //   dispatch(removeFromCart(record))
+    // );
+    dispatch(bookFlightAction({
+      tenant: auth.tenant,
+      username: auth.username,
+      flight: {
+        flight: record.flight,
+        name: record.name,
+        utc: record.date,
+        price: record. 
+      }
+    }));
+  };
 
   const columns: ColumnsType<Cart> = [
     {
@@ -41,13 +65,17 @@ const Cart = () => {
       key: "actions",
       fixed: "left",
       width: 100,
-      render: () => {
+      render: (text, record) => {
         return (
           <>
-            <Button type="primary" className="mx-5">
+            <Button
+              type="primary"
+              className="mx-5"
+              onClick={() => handleBuy(record)}
+            >
               Buy
             </Button>
-            <a>Delete</a>
+            <a onClick={() => handleDelete(record)}>Delete</a>
           </>
         );
       },

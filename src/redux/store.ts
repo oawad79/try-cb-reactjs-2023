@@ -14,6 +14,7 @@ import airportsApi from "../services/AirportService"
 import loginApi from "../services/LoginService";
 import authReducer from './slices/authSlice'
 import cartReducer from './slices/cartSlice'
+import bookedReducer from './slices/bookedSlice'
 
 //using redux-persist to store the redux state to 
 //keep the store state when browser refreshed 
@@ -42,6 +43,7 @@ const rootReducer = combineReducers({
   returnFlights: returnReducer,
   auth: authReducer,
   cart: cartReducer,
+  booked: bookedReducer,
   
   //RTK Query APIs
   [flightsApi.reducerPath] : flightsApi.reducer,

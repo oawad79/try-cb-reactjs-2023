@@ -7,3 +7,5 @@ type Cart = {
   actions?: ReactElement;
 
 };
+
+type BookedType = Cart; 

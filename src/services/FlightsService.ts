@@ -1,5 +1,6 @@
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react'
 import uniqid from 'uniqid';
+import { BookingRequestType, Flight } from '../types/flight';
 
 const flightsApi = createApi({
     baseQuery: fetchBaseQuery({
@@ -26,6 +27,15 @@ const flightsApi = createApi({
                 return []
             },
 
+        }),
+        bookFlight: build.mutation<string, BookingRequestType>({
+            query: (flightRequest) => ({ 
+                url: `/tenants/${flightRequest.tenant}/user/${flightRequest.username}/flights`,
+                method: 'POST',
+                body: {
+                    ...flightRequest.flight
+                }
+            }) 
         })
         
     })

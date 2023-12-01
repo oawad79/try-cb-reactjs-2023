@@ -19,3 +19,9 @@ type GetFlightsType = {
     leave?: string;
     return?: string;
 }
+
+type BookingRequestType = {
+    flight: Flight;
+    username: string;
+    tenant: string;
+}
