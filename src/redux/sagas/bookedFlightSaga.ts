@@ -5,7 +5,8 @@ import flightsApi from "../../services/FlightsService";
 export function* handleBookFlight(action) {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     //@ts-expect-error
-    const bookFlightPromise = yield put(flightsApi.endpoints.bookFlight.initiate({username: }))
+    console.log("action in saga = ", action)
+    const bookFlightPromise = yield put(flightsApi.endpoints.bookFlight.initiate({...action.payload}))
     const { data } = yield bookFlightPromise
     yield put(addToBooked(data))
 }

@@ -1,13 +1,13 @@
 import { ReactElement } from "react";
 
 interface Flight {
-  key: string;
+  key?: string;
   name: string;
   flight: string;
   utc: string;
-  flightPath: string;
+  flightPath?: string;
   price: string;
-  actions: ReactElement;
+  actions?: ReactElement;
   sourceairport?: string;
   destinationairport?:string;
   added?: boolean;
@@ -21,6 +21,7 @@ type GetFlightsType = {
 }
 
 type BookingRequestType = {
+    token: string;
     flight: Flight;
     username: string;
     tenant: string;

@@ -18,16 +18,21 @@ const Cart = () => {
     // Promise.resolve(dispatch(addToBooked(record))).then(() =>
     //   dispatch(removeFromCart(record))
     // );
-    dispatch(bookFlightAction({
-      tenant: auth.tenant,
-      username: auth.username,
-      flight: {
-        flight: record.flight,
-        name: record.name,
-        utc: record.date,
-        price: record. 
-      }
-    }));
+    dispatch(
+      bookFlightAction({
+        token: auth.token,
+        tenant: "tenant_agent_00",
+        username: auth.username,
+        flight: {
+          flight: record.flight,
+          name: record.name,
+          utc: record.date,
+          price: "12",
+          sourceairport: "Leonardo Da Vinci International Airport",
+          destinationairport: "London (Gatwick)",
+        },
+      })
+    );
   };
 
   const columns: ColumnsType<Cart> = [

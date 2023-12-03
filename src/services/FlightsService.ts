@@ -1,11 +1,29 @@
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react'
 import uniqid from 'uniqid';
 import { BookingRequestType, Flight } from '../types/flight';
+import { RootState } from '../redux/store';
+
+const originalBaseQuery = fetchBaseQuery({ 
+    baseUrl: "http://localhost:8080/api",
+    prepareHeaders: (headers, { getState }) => {
+        const token = (getState() as RootState).auth.token
+            
+        // If we have a token set in state, let's assume that we should be passing it.
+        if (token) {
+            headers.set('Authorization', `Bearer ${token}`)
+        }
+
+        return headers
+    },
+});
+
+const wrappedBaseQuery = (...args) => {
+  console.log ("making api call", ...args)
+  return originalBaseQuery (...args)
+}
 
 const flightsApi = createApi({
-    baseQuery: fetchBaseQuery({
-        baseUrl: "http://localhost:8080/api"
-    }),
+    baseQuery: wrappedBaseQuery,
     endpoints: (build) => ({
         flightsList: build.query({
             query({from, to, leave} : {from: string, to: string, leave: string}) {
@@ -31,11 +49,16 @@ const flightsApi = createApi({
         bookFlight: build.mutation<string, BookingRequestType>({
             query: (flightRequest) => ({ 
                 url: `/tenants/${flightRequest.tenant}/user/${flightRequest.username}/flights`,
-                method: 'POST',
+                method: 'PUT',
                 body: {
-                    ...flightRequest.flight
-                }
-            }) 
+                    "flights" : [
+                        {
+                            ...flightRequest.flight
+                        }
+                    ]
+                },
+                
+            })
         })
         
     })
