@@ -3,7 +3,7 @@ type Cart = {
   name: string;
   flight: string;
   date: string;
-  flightPath: string;
+  flightPath?: string;
   actions?: ReactElement;
 
 };

@@ -93,7 +93,7 @@ const Cart = () => {
         <Col className="w-full">
           <Table
             columns={columns}
-            rowKey={uniqid()}
+            rowKey={(record) => record.key}
             key={uniqid()}
             className="w-[150px] md:w-[300px] lg:w-[1352px]"
             dataSource={cart}
