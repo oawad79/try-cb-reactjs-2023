@@ -15,12 +15,6 @@ const hotelsSlice = createSlice({
         getHotelsRequestSuccess: (_state, action: PayloadAction<Hotel[]>) => {
             return action.payload
         }
-        // ,
-        // getHotelsRequestFailed: (state, action) => {
-        //     console.log("My error: " , action.payload.message)
-        //     console.log("state = ", state)
-        //     return state;
-        // }
     },
     extraReducers: () => {
         //used to handle actions created in another slice (external ones)

@@ -20,7 +20,6 @@ const cartSlice = createSlice({
     initialState: initialState,
     reducers: {
         addToCart: (state, action) => {
-            console.log("addToCart = ", [...state, mapFlightToCart(action.payload.flight)])
             return [...state, mapFlightToCart(action.payload.flight)]    
         },
         removeFromCart: (state, action) => {

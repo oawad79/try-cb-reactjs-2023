@@ -60,7 +60,6 @@ const flightsApi = createApi({
                 
                 
             }),transformResponse(baseQueryReturnValue, meta, arg) {
-                console.log("base = ", baseQueryReturnValue.data.added[0])
                 return baseQueryReturnValue.data.added[0]
             },
         })
