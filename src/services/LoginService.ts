@@ -1,6 +1,5 @@
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react'
-import { md5 } from '../helpers/md5';
-
+import md5 from 'blueimp-md5';
 
 const loginApi = createApi({
     reducerPath: 'login',
