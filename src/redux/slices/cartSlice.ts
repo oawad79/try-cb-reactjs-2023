@@ -8,9 +8,10 @@ function mapFlightToCart(flight: Flight) : Cart {
     return {
         key: uniqid(),
         name: flight.name,
-        date: flight.utc,
+        from: flight.from,
         flight: flight.flight,
-        flightPath: flight.flightPath
+        flightPath: flight.flightPath,
+        price: flight.price
     }
 }
 
@@ -19,10 +20,10 @@ const cartSlice = createSlice({
     initialState: initialState,
     reducers: {
         addToCart: (state, action) => {
-            return [...state, mapFlightToCart(action.payload)]    
+            console.log("addToCart = ", [...state, mapFlightToCart(action.payload.flight)])
+            return [...state, mapFlightToCart(action.payload.flight)]    
         },
         removeFromCart: (state, action) => {
-            console.log("delete action = ", action)
             return state.filter(entry => entry.flight !== action.payload.flight )
         }
     }, 

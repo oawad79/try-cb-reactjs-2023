@@ -2,7 +2,7 @@ type Cart = {
   key: string;
   name: string;
   flight: string;
-  date: string;
+  from: string;
   flightPath?: string;
   actions?: ReactElement;
 

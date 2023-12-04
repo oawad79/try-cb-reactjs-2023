@@ -15,7 +15,6 @@ const outgoingFlightsSlice = createSlice({
     initialState: initialState,
     reducers: {
         setOutgoingFlights: (state, action) => {
-            console.log("Out = ", action.payload)
             return action.payload
         }  
     },
@@ -29,7 +28,6 @@ const returningFlightsSlice = createSlice({
     initialState: initialState,
     reducers: {
         setReturningFlights: (state, action) => {
-            console.log("Return = ", action.payload)
             return action.payload
         }   
     },

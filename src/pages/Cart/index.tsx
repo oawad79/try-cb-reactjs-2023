@@ -26,10 +26,11 @@ const Cart = () => {
         flight: {
           flight: record.flight,
           name: record.name,
-          utc: record.date,
+          from: record.from,
           price: "12",
           sourceairport: "Leonardo Da Vinci International Airport",
           destinationairport: "London (Gatwick)",
+          flightPath: record.flightPath,
         },
       })
     );
@@ -52,8 +53,8 @@ const Cart = () => {
     },
     {
       title: "Date",
-      dataIndex: "date",
-      key: "date",
+      dataIndex: "from",
+      key: "from",
       fixed: "left",
       width: 50,
     },

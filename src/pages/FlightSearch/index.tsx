@@ -21,6 +21,7 @@ import {
 import uniqid from "uniqid";
 import { Flight } from "../../types/flight";
 import { addToCart } from "../../redux/slices/cartSlice";
+import { useForm } from "antd/es/form/Form";
 
 type FormTypes = {
   from: string;
@@ -40,10 +41,18 @@ const FlightSearch = () => {
   const returnFlights = useAppSelector(returnFlightsForUI);
   const auth = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
+  const [form] = useForm();
 
   const handleOnAddToCart = (record: Flight): void => {
-    console.log("selected row = ", record);
-    dispatch(addToCart(record));
+    dispatch(
+      addToCart({
+        flight: {
+          ...record,
+          from: form.getFieldValue("leave").format("MM/DD/YYYY"),
+          to: form.getFieldValue("return").format("MM/DD/YYYY"),
+        },
+      })
+    );
   };
 
   const isLoggedIn = () => {
@@ -120,7 +129,7 @@ const FlightSearch = () => {
   };
 
   return (
-    <Form onFinish={handleOnFinish}>
+    <Form onFinish={handleOnFinish} form={form}>
       <Row justify={"center"} align={"middle"}>
         <Col className="mx-11">
           <Form.Item<FormTypes>

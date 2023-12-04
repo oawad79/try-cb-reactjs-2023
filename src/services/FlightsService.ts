@@ -56,9 +56,13 @@ const flightsApi = createApi({
                             ...flightRequest.flight
                         }
                     ]
-                },
+                }
                 
-            })
+                
+            }),transformResponse(baseQueryReturnValue, meta, arg) {
+                console.log("base = ", baseQueryReturnValue.data.added[0])
+                return baseQueryReturnValue.data.added[0]
+            },
         })
         
     })

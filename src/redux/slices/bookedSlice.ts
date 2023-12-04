@@ -14,6 +14,7 @@ const bookedSlice = createSlice({
     initialState: initialState,
     reducers: {
         addToBooked: (state, action) => {
+            console.log("Booked = ", action)
             return [...state, action.payload];
         }
     },

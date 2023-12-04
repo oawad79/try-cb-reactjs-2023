@@ -11,6 +11,8 @@ interface Flight {
   sourceairport?: string;
   destinationairport?:string;
   added?: boolean;
+  from?: string;
+  to?: string;
 }
 
 type GetFlightsType = {
