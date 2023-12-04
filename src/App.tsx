@@ -16,6 +16,7 @@ const FlightSearch = lazy(() => import("./pages/FlightSearch"));
 function App() {
   const dispatch = useAppDispatch();
   const auth = useAppSelector((state) => state.auth);
+  const cart = useAppSelector((state) => state.cart);
 
   const isLoggedIn = () => {
     return auth.token && auth.token.length > 0;
@@ -50,7 +51,7 @@ function App() {
                   disabled: false,
                 },
                 {
-                  label: "Cart",
+                  label: cart.length > 0 ? `Cart(${cart.length})` : "Cart",
                   component: <Cart />,
                   url: "/cart",
                   disabled: !isLoggedIn(),
