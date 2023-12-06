@@ -205,7 +205,9 @@ const FlightSearch = () => {
         </Col>
       </Row>
       <Row>
-        <Col>You must log in to be able to book flights!</Col>
+        {!isLoggedIn() && (
+          <Col>You must log in to be able to book flights!</Col>
+        )}
         <Col span={22} offset={21}>
           <Button
             type="primary"

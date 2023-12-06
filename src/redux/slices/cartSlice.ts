@@ -8,10 +8,12 @@ function mapFlightToCart(flight: Flight) : Cart {
     return {
         key: uniqid(),
         name: flight.name,
-        from: flight.from,
+        from: flight.from!,
         flight: flight.flight,
         flightPath: flight.flightPath,
-        price: flight.price
+        price: flight.price,
+        sourceairport: flight.sourceairport!,
+        destinationairport: flight.destinationairport
     }
 }
 

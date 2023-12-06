@@ -20,14 +20,14 @@ const Cart = () => {
     // );
     dispatch(
       bookFlightAction({
-        token: auth.token,
+        token: auth.token!,
         tenant: "tenant_agent_00",
         username: auth.username,
         flight: {
           flight: record.flight,
           name: record.name,
-          from: record.from,
-          price: "12",
+          from: record.from,//date
+          price: record.price!,
           sourceairport: "Leonardo Da Vinci International Airport",
           destinationairport: "London (Gatwick)",
           flightPath: record.flightPath,

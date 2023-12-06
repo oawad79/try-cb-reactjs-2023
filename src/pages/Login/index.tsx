@@ -45,9 +45,6 @@ const Login = () => {
           setError(error);
         });
     });
-    // .catch((error) => {
-    //   console.log("e = ", error.errorFields);
-    // });
   };
 
   const handleLogin = (data: LoginType) => {

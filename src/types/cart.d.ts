@@ -5,7 +5,9 @@ type Cart = {
   from: string;
   flightPath?: string;
   actions?: ReactElement;
-
+  price?: string;
+  sourceairport?: string;
+  destinationairport?: string;
 };
 
 type BookedType = Cart; 
