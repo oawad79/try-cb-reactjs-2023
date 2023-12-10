@@ -10,18 +10,19 @@ import { Suspense } from "react";
 import { ConfigProvider, Spin } from "antd";
 import { PersistGate } from "redux-persist/integration/react";
 
-//ErrorBoundary is used to handle rendering issues Does not handle async
-//issues like Sagas or other issues
+//!ErrorBoundary is used to handle rendering issues Does not handle async
+//!issues like Sagas or other issues
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <ConfigProvider
     theme={
       {
+        //ignoring it for now
         // token: {
-        //   // Seed Token
+        //   //   // Seed Token
         //   colorPrimary: "#8c8c8c",
-        //   borderRadius: 2,
-        //   // Alias Token
-        //   colorBgContainer: "#d9d9d9",
+        //   //   borderRadius: 2,
+        //   //   // Alias Token
+        //   //   colorBgContainer: "#d9d9d9",
         // },
       }
     }

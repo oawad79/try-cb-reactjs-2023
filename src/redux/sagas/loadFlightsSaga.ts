@@ -1,6 +1,7 @@
 import { all, fork, put, takeEvery } from "redux-saga/effects";
 import { getFlightsByFromByToByTime, setOutgoingFlights, setReturningFlights } from "../slices/flightsSlice";
 import flightsApi from "../../services/FlightsService";
+import {GetFlightsType} from "../../types/flight";
 
 
 function *getOutgoingFlights({from, to, leave} : GetFlightsType) {
