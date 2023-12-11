@@ -6,6 +6,7 @@ import RoutedTabs from "./components/RoutedTabs";
 import { Link, Route, Routes } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "./redux/hooks";
 import Login from "./pages/Login";
+import Sales from "./pages/Sales";
 
 //const NotFound = lazy(() => import("../components/NotFound/index"));
 const HotelSearch = lazy(() => import("./pages/HotelSearch"));
@@ -66,6 +67,12 @@ function App() {
                   label: "Hotels",
                   component: <HotelSearch />,
                   url: "/hotels",
+                  disabled: false,
+                },
+                {
+                  label: "Sales",
+                  component: <Sales />,
+                  url: "/sales",
                   disabled: false,
                 },
               ]}
