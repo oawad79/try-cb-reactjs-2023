@@ -13,10 +13,11 @@ const Sales = () => {
       { type: "F", value: 5 },
     ],
     angleField: "value",
-    with: 800,
-    height: 800,
+    with: 1000,
+    height: 1000,
+    radius: 1,
     colorField: "type",
-    paddingRight: 80,
+    paddingRight: 130,
     label: {
       text: "value",
       position: "outside",
@@ -31,7 +32,7 @@ const Sales = () => {
   };
   return (
     <Row className="w-[150px] md:w-[300px] lg:w-[1350px]">
-      <Col>
+      <Col span={20}>
         <Pie {...config} />
       </Col>
     </Row>
